@@ -5,6 +5,9 @@ http://greenteapress.com/complexity
 
 Copyright 2011 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+>>> H = {'A': ['C', 'D'], 'B': ['D', 'A'], 'C': ['D', 'E'],      'D': ['E'], 'E': [] }
+>>> len(Graph(H).vertices())
+5
 """
 
 import string
@@ -200,9 +203,31 @@ def main(script, n='6', *args):
     gw.show_graph(g, layout)
     gw.mainloop()
 
+import sys    
+    
+def drawStdin(nouse,filename=sys.stdin):
+    g={}
+    for ln in open(filename):
+        if ' ' in ln:
+            edg= ln.split()
+            g[edg[0]].append(edg[1])
+        else:
+            if len(g.keys()) !=0:
+                continue
+            else:
+                for i in range(int(ln)):
+                    g[str(i)]=[]
+    #print g
+    graph=Graph(g)     
+    layout = CircleLayout(graph)
+    gw = GraphWorld()
+    gw.show_graph(graph, layout)
+    gw.mainloop()       
+    #print  graph   
+    pass    
 
-if __name__ == '__main__':
-    import sys
-    main(*sys.argv)
+if __name__ == '__main__': 
+    drawStdin(*sys.argv)
+    pass
 
 
